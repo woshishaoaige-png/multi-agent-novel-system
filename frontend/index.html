@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多Agent协作写小说系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .agent-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .tab-active {
+            background-color: white;
+            color: #1f2937;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-2 rounded-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold gradient-text">多Agent协作写小说系统</h1>
+                        <p class="text-sm text-slate-500">Multi-Agent Novel Writing System</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">
+                        <span class="mr-1">✨</span> AI Powered
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Tabs -->
+        <div class="mb-8">
+            <div class="bg-slate-100 p-1 rounded-lg inline-flex">
+                <button onclick="showTab('overview')" id="tab-overview" class="tab-active px-4 py-2 rounded-md text-sm font-medium transition-all">系统概览</button>
+                <button onclick="showTab('agents')" id="tab-agents" class="px-4 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-slate-900 transition-all">Agent团队</button>
+                <button onclick="showTab('styles')" id="tab-styles" class="px-4 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-slate-900 transition-all">作家风格</button>
+                <button onclick="showTab('workflow')" id="tab-workflow" class="px-4 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-slate-900 transition-all">协作流程</button>
+            </div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="content-overview" class="space-y-6">
+            <!-- Hero Section -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white p-8 lg:p-12">
+                <div class="relative z-10">
+                    <h2 class="text-3xl lg:text-4xl font-bold mb-4">让多个AI Agent协作创作你的小说</h2>
+                    <p class="text-lg text-white/90 max-w-2xl mb-6">
+                        参考MuMuAINovel项目架构，结合CrewAI、AutoGen等先进的多Agent框架，
+                        打造智能化的小说创作助手。支持学习你喜欢的作家风格，塑造独特的AI作家。
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-sm">🔄 多Agent协作</span>
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-sm">🎨 风格学习</span>
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-sm">💬 智能对话</span>
+                    </div>
+                </div>
+                <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+            </div>
+
+            <!-- Core Features -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">多Agent协作</h3>
+                    <p class="text-slate-600">6个专业Agent分工协作，从规划到写作到审核，全流程智能化</p>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">风格学习</h3>
+                    <p class="text-slate-600">上传喜欢的作家文章，系统自动分析并学习其写作风格</p>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">质量保障</h3>
+                    <p class="text-slate-600">生成-评估-优化闭环，多轮迭代确保内容质量</p>
+                </div>
+            </div>
+
+            <!-- Architecture Diagram -->
+            <div class="bg-white rounded-xl border border-slate-200 p-6">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    系统架构
+                </h3>
+                <div class="bg-slate-50 rounded-lg p-6 font-mono text-sm overflow-x-auto">
+                    <pre class="text-slate-700">
+┌─────────────────────────────────────────────────────────────────┐
+│                        用户交互层 (Web UI)                         │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      编排协调层 (Orchestrator)                     │
+│         任务调度 │ Agent协调 │ 状态管理 │ 质量监控                  │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                         Agent协作层                               │
+│  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌──────┐ │
+│  │规划师  │ │世界    │ │角色    │ │情节    │ │作家    │ │编辑  │ │
+│  │(Planner)│ │(World) │ │(Char)  │ │(Plot)  │ │(Writer)│ │(Edit)│ │
+│  └────────┘ └────────┘ └────────┘ └────────┘ └────────┘ └──────┘ │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    作家风格系统 (Style System)                     │
+│           风格分析 │ 风格存储 │ 风格迁移 │ 风格混合                  │
+└─────────────────────────────────────────────────────────────────┘</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agents Tab -->
+        <div id="content-agents" class="space-y-6 hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Planner -->
+                <div class="agent-card bg-white rounded-xl border border-slate-200 p-6 transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">空闲</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">首席规划师</h3>
+                    <p class="text-xs font-mono text-slate-500 mb-3">Planner</p>
+                    <p class="text-slate-600 text-sm">理解用户需求，生成故事大纲，协调其他Agent</p>
+                </div>
+
+                <!-- World Builder -->
+                <div class="agent-card bg-white rounded-xl border border-slate-200 p-6 transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-emerald-500 rounded-lg flex items-center justify-center text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">空闲</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">世界构建师</h3>
+                    <p class="text-xs font-mono text-slate-500 mb-3">World Builder</p>
+                    <p class="text-slate-600 text-sm">创建世界观、地理、历史、文化背景</p>
+                </div>
+
+                <!-- Character Designer -->
+                <div class="agent-card bg-white rounded-xl border border-slate-200 p-6 transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">空闲</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">角色设计师</h3>
+                    <p class="text-xs font-mono text-slate-500 mb-3">Character Designer</p>
+                    <p class="text-slate-600 text-sm">设计角色性格、背景、成长弧线</p>
+                </div>
+
+                <!-- Writer -->
+                <div class="agent-card bg-white rounded-xl border border-slate-200 p-6 transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-amber-500 rounded-lg flex items-center justify-center text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                            </svg>
+                        </div>
+                        <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">空闲</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">主笔作家</h3>
+                    <p class="text-xs font-mono text-slate-500 mb-3">Lead Writer</p>
+                    <p class="text-slate-600 text-sm">根据大纲撰写章节内容</p>
+                </div>
+
+                <!-- Editor -->
+                <div class="agent-card bg-white rounded-xl border border-slate-200 p-6 transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                            </svg>
+                        </div>
+                        <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">空闲</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">风格编辑</h3>
+                    <p class="text-xs font-mono text-slate-500 mb-3">Style Editor</p>
+                    <p class="text-slate-600 text-sm">润色内容，统一文风</p>
+                </div>
+
+                <!-- Reviewer -->
+                <div class="agent-card bg-white rounded-xl border border-slate-200 p-6 transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-cyan-500 rounded-lg flex items-center justify-center text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">空闲</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">审核员</h3>
+                    <p class="text-xs font-mono text-slate-500 mb-3">Reviewer</p>
+                    <p class="text-slate-600 text-sm">检查逻辑一致性，质量评估</p>
+                </div>
+            </div>
+
+            <!-- Collaboration Modes -->
+            <div class="bg-white rounded-xl border border-slate-200 p-6">
+                <h3 class="text-lg font-semibold mb-4">Agent协作模式</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                        <span class="px-3 py-1 bg-blue-500 text-white rounded text-sm">顺序协作</span>
+                        <span class="text-slate-600">Agent按顺序执行任务，前一Agent的输出作为后一Agent的输入</span>
+                    </div>
+                    <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                        <span class="px-3 py-1 bg-purple-500 text-white rounded text-sm">并行协作</span>
+                        <span class="text-slate-600">多个Agent同时工作，结果汇总后由协调器整合</span>
+                    </div>
+                    <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                        <span class="px-3 py-1 bg-emerald-500 text-white rounded text-sm">迭代协作</span>
+                        <span class="text-slate-600">Agent之间多轮对话，逐步优化内容</span>
+                    </div>
+                    <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                        <span class="px-3 py-1 bg-amber-500 text-white rounded text-sm">专家咨询</span>
+                        <span class="text-slate-600">主Agent在执行任务时可咨询其他专家Agent</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Styles Tab -->
+        <div id="content-styles" class="space-y-6 hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 金庸风格 -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-all cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">金庸风格</h3>
+                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-slate-600 mb-4">武侠经典，文笔优美，人物刻画细腻</p>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-sm font-medium text-slate-700 mb-2">风格特征</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">古典词汇</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">意境深远</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">侠义精神</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">情节跌宕</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-slate-700 mb-2">参考作家</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 border border-slate-200 text-slate-600 rounded text-xs">金庸</span>
+                                <span class="px-2 py-1 border border-slate-200 text-slate-600 rounded text-xs">古龙</span>
+                                <span class="px-2 py-1 border border-slate-200 text-slate-600 rounded text-xs">梁羽生</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 刘慈欣风格 -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-all cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">刘慈欣风格</h3>
+                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-slate-600 mb-4">硬科幻，宏大叙事，科学严谨</p>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-sm font-medium text-slate-700 mb-2">风格特征</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">科学概念</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">宏大场景</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">理性思维</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">哲学思考</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-slate-700 mb-2">参考作家</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 border border-slate-200 text-slate-600 rounded text-xs">刘慈欣</span>
+                                <span class="px-2 py-1 border border-slate-200 text-slate-600 rounded text-xs">阿西莫夫</span>
+                                <span class="px-2 py-1 border border-slate-200 text-slate-600 rounded text-xs">克拉克</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 村上春树风格 -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-all cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">村上春树风格</h3>
+                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-slate-600 mb-4">都市奇幻，孤独感，超现实主义</p>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-sm font-medium text-slate-700 mb-2">风格特征</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">细腻心理</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">音乐元素</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">孤独氛围</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">隐喻丰富</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-slate-700 mb-2">参考作家</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 border border-slate-200 text-slate-600 rounded text-xs">村上春树</span>
+                                <span class="px-2 py-1 border border-slate-200 text-slate-600 rounded text-xs">川端康成</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JK罗琳风格 -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-all cursor-pointer">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">JK罗琳风格</h3>
+                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-slate-600 mb-4">魔幻世界，成长故事，幽默温暖</p>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-sm font-medium text-slate-700 mb-2">风格特征</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">魔法元素</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">成长主题</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">幽默对话</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">温暖情感</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-slate-700 mb-2">参考作家</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 border border-slate-200 text-slate-600 rounded text-xs">J.K.罗琳</span>
+                                <span class="px-2 py-1 border border-slate-200 text-slate-600 rounded text-xs">托尔金</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Style Learning Process -->
+            <div class="bg-white rounded-xl border border-slate-200 p-6">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    风格学习流程
+                </h3>
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0">1</div>
+                        <div>
+                            <h4 class="font-medium">文本分析</h4>
+                            <p class="text-sm text-slate-600">使用LLM分析作家的语言特征、叙事特点、词汇偏好</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0">2</div>
+                        <div>
+                            <h4 class="font-medium">特征提取</h4>
+                            <p class="text-sm text-slate-600">提取词汇特征、句式特点、叙事特征、对话风格等</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0">3</div>
+                        <div>
+                            <h4 class="font-medium">风格编码</h4>
+                            <p class="text-sm text-slate-600">将风格特征编码为系统提示词，指导AI写作</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0">4</div>
+                        <div>
+                            <h4 class="font-medium">风格应用</h4>
+                            <p class="text-sm text-slate-600">在写作时应用学习到的风格，生成具有作家特色的内容</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow Tab -->
+        <div id="content-workflow" class="space-y-6 hidden">
+            <div class="bg-white rounded-xl border border-slate-200 p-6">
+                <h3 class="text-lg font-semibold mb-2">小说创作协作流程</h3>
+                <p class="text-slate-600 mb-6">从创意到成书，多Agent协同完成整个创作流程</p>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                            <div class="w-0.5 h-16 bg-slate-200 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h4 class="font-semibold text-lg">需求分析</h4>
+                                <span class="px-2 py-0.5 bg-blue-500 text-white rounded text-xs">首席规划师</span>
+                            </div>
+                            <p class="text-slate-600">首席规划师理解用户创作意图</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">2</div>
+                            <div class="w-0.5 h-16 bg-slate-200 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h4 class="font-semibold text-lg">大纲生成</h4>
+                                <span class="px-2 py-0.5 bg-blue-500 text-white rounded text-xs">首席规划师</span>
+                            </div>
+                            <p class="text-slate-600">生成故事大纲和章节结构</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">3</div>
+                            <div class="w-0.5 h-16 bg-slate-200 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h4 class="font-semibold text-lg">世界构建</h4>
+                                <span class="px-2 py-0.5 bg-emerald-500 text-white rounded text-xs">世界构建师</span>
+                            </div>
+                            <p class="text-slate-600">世界构建师创建世界观设定</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">4</div>
+                            <div class="w-0.5 h-16 bg-slate-200 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h4 class="font-semibold text-lg">角色设计</h4>
+                                <span class="px-2 py-0.5 bg-purple-500 text-white rounded text-xs">角色设计师</span>
+                            </div>
+                            <p class="text-slate-600">角色设计师创建主要角色档案</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">5</div>
+                            <div class="w-0.5 h-16 bg-slate-200 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h4 class="font-semibold text-lg">章节写作</h4>
+                                <span class="px-2 py-0.5 bg-amber-500 text-white rounded text-xs">主笔作家</span>
+                            </div>
+                            <p class="text-slate-600">主笔作家撰写章节内容</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">6</div>
+                            <div class="w-0.5 h-16 bg-slate-200 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h4 class="font-semibold text-lg">风格润色</h4>
+                                <span class="px-2 py-0.5 bg-pink-500 text-white rounded text-xs">风格编辑</span>
+                            </div>
+                            <p class="text-slate-600">风格编辑统一文风，润色语言</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">7</div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h4 class="font-semibold text-lg">质量审核</h4>
+                                <span class="px-2 py-0.5 bg-cyan-500 text-white rounded text-xs">审核员</span>
+                            </div>
+                            <p class="text-slate-600">审核员检查一致性和质量</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quality Assurance -->
+            <div class="bg-white rounded-xl border border-slate-200 p-6">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    质量保障机制
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <h4 class="font-medium mb-2">生成-评估-优化闭环</h4>
+                        <p class="text-sm text-slate-600">每个章节经过生成、评估、反馈、修正的多轮迭代，确保质量达标</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <h4 class="font-medium mb-2">一致性检查</h4>
+                        <p class="text-sm text-slate-600">自动检测人物设定、情节逻辑、世界观的一致性</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <h4 class="font-medium mb-2">风格统一</h4>
+                        <p class="text-sm text-slate-600">风格编辑确保全文语言风格统一，避免不同Agent写作的风格差异</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <h4 class="font-medium mb-2">人工干预</h4>
+                        <p class="text-sm text-slate-600">支持人工审核和调整，在关键环节提供人工指导</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <p class="text-slate-500 text-sm">
+                    参考项目: MuMuAINovel | 技术栈: Python + React + TypeScript
+                </p>
+                <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                    <span class="text-sm text-slate-400">多Agent协作写小说系统</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all content
+            document.getElementById('content-overview').classList.add('hidden');
+            document.getElementById('content-agents').classList.add('hidden');
+            document.getElementById('content-styles').classList.add('hidden');
+            document.getElementById('content-workflow').classList.add('hidden');
+            
+            // Remove active class from all tabs
+            document.getElementById('tab-overview').classList.remove('tab-active');
+            document.getElementById('tab-agents').classList.remove('tab-active');
+            document.getElementById('tab-styles').classList.remove('tab-active');
+            document.getElementById('tab-workflow').classList.remove('tab-active');
+            
+            // Show selected content
+            document.getElementById('content-' + tabName).classList.remove('hidden');
+            
+            // Add active class to selected tab
+            document.getElementById('tab-' + tabName).classList.add('tab-active');
+        }
+    </script>
+</body>
+</html>

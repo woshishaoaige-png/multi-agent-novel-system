@@ -1,0 +1,502 @@
+# 多Agent协作写小说系统 - 模型配置文件
+# 
+# 本配置文件用于定义各Agent使用的大模型
+# 支持多种模型提供商：OpenAI, Anthropic, Gemini, DeepSeek, 本地模型等
+#
+# 使用方法：
+#   1. 编辑本文件，配置您的API密钥和模型
+#   2. 在代码中加载配置：
+#      from app.config.agent_model_config import init_model_registry
+#      registry = init_model_registry("config/models_config.yaml")
+
+# ============================================================
+# 可用模型定义
+# ============================================================
+models:
+  # OpenAI 模型
+  gpt-4:
+    provider: openai
+    model_name: gpt-4
+    capabilities:
+      - general
+      - creative
+      - analysis
+      - long_context
+    max_tokens: 8000
+    temperature: 0.7
+    cost_tier: expensive
+    context_window: 128000
+    description: "GPT-4 是 OpenAI 最强大的模型，适合复杂推理和创意写作"
+
+  gpt-4-turbo:
+    provider: openai
+    model_name: gpt-4-turbo
+    capabilities:
+      - general
+      - creative
+      - analysis
+      - long_context
+    max_tokens: 16000
+    temperature: 0.7
+    cost_tier: medium
+    context_window: 128000
+    description: "GPT-4 Turbo，更快更便宜，适合大多数任务"
+
+  gpt-3.5-turbo:
+    provider: openai
+    model_name: gpt-3.5-turbo
+    capabilities:
+      - general
+      - fast
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: cheap
+    context_window: 16385
+    description: "快速响应，适合简单任务"
+
+  # Anthropic Claude 模型
+  claude-3-opus:
+    provider: anthropic
+    model_name: claude-3-opus-20240229
+    capabilities:
+      - general
+      - creative
+      - analysis
+      - long_context
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: expensive
+    context_window: 200000
+    description: "Claude 3 Opus，最强大的Claude模型，适合复杂任务"
+
+  claude-3-sonnet:
+    provider: anthropic
+    model_name: claude-3-sonnet-20240229
+    capabilities:
+      - general
+      - creative
+      - analysis
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: medium
+    context_window: 200000
+    description: "Claude 3 Sonnet，性价比高的选择"
+
+  claude-3-haiku:
+    provider: anthropic
+    model_name: claude-3-haiku-20240307
+    capabilities:
+      - general
+      - fast
+      - cheap
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: cheap
+    context_window: 200000
+    description: "Claude 3 Haiku，快速响应，适合简单任务"
+
+  # Google Gemini 模型
+  gemini-pro:
+    provider: gemini
+    model_name: gemini-pro
+    capabilities:
+      - general
+      - creative
+      - analysis
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: medium
+    context_window: 32768
+    description: "Google Gemini Pro"
+
+  gemini-ultra:
+    provider: gemini
+    model_name: gemini-ultra
+    capabilities:
+      - general
+      - creative
+      - analysis
+      - long_context
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: expensive
+    context_window: 32768
+    description: "Google Gemini Ultra，最强大的Gemini模型"
+
+  # DeepSeek 模型
+  deepseek-chat:
+    provider: deepseek
+    model_name: deepseek-chat
+    capabilities:
+      - general
+      - creative
+      - analysis
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: cheap
+    context_window: 16384
+    description: "DeepSeek Chat，性价比高"
+
+  deepseek-coder:
+    provider: deepseek
+    model_name: deepseek-coder
+    capabilities:
+      - general
+      - analysis
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: cheap
+    context_window: 16384
+    description: "DeepSeek Coder，适合代码相关任务"
+
+  # ============================================================
+  # 阿里云百炼（通义千问）模型
+  # ============================================================
+  qwen-plus:
+    provider: dashscope
+    model_name: qwen-plus
+    capabilities:
+      - general
+      - creative
+      - analysis
+      - long_context
+    max_tokens: 6000
+    temperature: 0.7
+    cost_tier: medium
+    context_window: 131072
+    description: "通义千问Plus，中等强度，性价比高"
+
+  qwen-turbo:
+    provider: dashscope
+    model_name: qwen-turbo
+    capabilities:
+      - general
+      - fast
+    max_tokens: 6000
+    temperature: 0.7
+    cost_tier: cheap
+    context_window: 32768
+    description: "通义千问Turbo，快速响应，适合简单任务"
+
+  qwen-long:
+    provider: dashscope
+    model_name: qwen-long
+    capabilities:
+      - general
+      - creative
+      - analysis
+      - long_context
+    max_tokens: 6000
+    temperature: 0.7
+    cost_tier: medium
+    context_window: 1000000
+    description: "通义千问Long，超长上下文版本"
+
+  qwen-max:
+    provider: dashscope
+    model_name: qwen-max
+    capabilities:
+      - general
+      - creative
+      - analysis
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: expensive
+    context_window: 8192
+    description: "通义千问Max，最强版本"
+
+  # ============================================================
+  # Kimi（月之暗面）模型
+  # ============================================================
+  moonshot-v1-8k:
+    provider: moonshot
+    model_name: moonshot-v1-8k
+    capabilities:
+      - general
+      - creative
+      - analysis
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: medium
+    context_window: 8192
+    description: "Kimi 8K上下文版本"
+
+  moonshot-v1-32k:
+    provider: moonshot
+    model_name: moonshot-v1-32k
+    capabilities:
+      - general
+      - creative
+      - analysis
+      - long_context
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: medium
+    context_window: 32768
+    description: "Kimi 32K上下文版本，中等长度任务"
+
+  moonshot-v1-128k:
+    provider: moonshot
+    model_name: moonshot-v1-128k
+    capabilities:
+      - general
+      - creative
+      - analysis
+      - long_context
+    max_tokens: 4000
+    temperature: 0.7
+    cost_tier: expensive
+    context_window: 131072
+    description: "Kimi 128K超长上下文版本，适合长文本处理"
+
+  # 本地/自定义模型
+  local-llama:
+    provider: local
+    model_name: llama-2-7b-chat
+    base_url: http://localhost:8000/v1
+    capabilities:
+      - general
+      - cheap
+    max_tokens: 2000
+    temperature: 0.7
+    cost_tier: cheap
+    context_window: 4096
+    description: "本地运行的Llama模型"
+
+
+# ============================================================
+# Agent模型配置
+# ============================================================
+agent_models:
+  # 首席规划师 - 需要强大的分析和规划能力
+  planner:
+    primary_model: gpt-4
+    fallback_models:
+      - claude-3-opus
+      - gemini-pro
+    max_retries: 3
+    timeout: 180.0
+    description: "规划师需要强大的分析能力，使用最强大的模型"
+
+  # 世界构建师 - 需要创意和长上下文
+  world_builder:
+    primary_model: gpt-4
+    fallback_models:
+      - claude-3-opus
+      - gemini-pro
+    max_retries: 3
+    timeout: 180.0
+    # 任务类型到模型的映射
+    task_model_map:
+      create_world: gpt-4
+      get_context: gpt-3.5-turbo
+    description: "世界构建需要强大的创意能力"
+
+  # 角色设计师 - 需要创意和分析
+  character_designer:
+    primary_model: gpt-4
+    fallback_models:
+      - claude-3-sonnet
+      - gemini-pro
+    max_retries: 3
+    timeout: 120.0
+    task_model_map:
+      create_character: gpt-4
+      get_context: gpt-3.5-turbo
+    description: "角色设计需要创意能力"
+
+  # 主笔作家 - 核心创作，需要最强创意能力
+  writer:
+    primary_model: gpt-4
+    fallback_models:
+      - claude-3-opus
+      - deepseek-chat
+    max_retries: 3
+    timeout: 300.0
+    custom_params:
+      temperature: 0.8
+    description: "作家是核心角色，使用最强模型以保证质量"
+
+  # 情节策划师
+  plot_planner:
+    primary_model: gpt-4
+    fallback_models:
+      - claude-3-sonnet
+      - gemini-pro
+    max_retries: 3
+    timeout: 120.0
+    description: "情节策划需要分析能力"
+
+  # 风格编辑 - 可以使用较便宜的模型
+  editor:
+    primary_model: gpt-3.5-turbo
+    fallback_models:
+      - claude-3-haiku
+      - gemini-pro
+    max_retries: 2
+    timeout: 120.0
+    description: "编辑润色任务相对简单，可以使用较便宜的模型"
+
+  # 审核员 - 需要分析能力
+  reviewer:
+    primary_model: gpt-4
+    fallback_models:
+      - claude-3-sonnet
+    max_retries: 3
+    timeout: 120.0
+    description: "审核需要分析能力"
+
+
+# ============================================================
+# 环境变量配置
+# ============================================================
+# API密钥通过环境变量设置，不要硬编码在配置文件中
+# 
+# 环境变量：
+#   OPENAI_API_KEY      - OpenAI API密钥
+#   ANTHROPIC_API_KEY   - Anthropic API密钥
+#   GEMINI_API_KEY      - Google Gemini API密钥
+#   DEEPSEEK_API_KEY    - DeepSeek API密钥
+#   DASHSCOPE_API_KEY   - 阿里云百炼（通义千问）API密钥
+#   MOONSHOT_API_KEY    - Kimi（月之暗面）API密钥
+#
+# 设置方法：
+#   export OPENAI_API_KEY="sk-..."
+#   export ANTHROPIC_API_KEY="sk-ant-..."
+#   export DASHSCOPE_API_KEY="your-dashscope-key"
+#   export MOONSHOT_API_KEY="your-moonshot-key"
+
+
+# ============================================================
+# 使用示例
+# ============================================================
+# 
+# 示例1: 基础使用（使用默认配置）
+# ---------------------------------
+# from app.core.orchestrator import AgentOrchestrator
+# from app.services.llm_client import LLMClient, LLMConfig, LLMProvider
+# 
+# config = LLMConfig(
+#     provider=LLMProvider.OPENAI,
+#     api_key=os.getenv("OPENAI_API_KEY"),
+#     model="gpt-4"
+# )
+# llm_client = LLMClient(config)
+# orchestrator = AgentOrchestrator(llm_client)
+#
+#
+# 示例2: 加载自定义配置
+# ---------------------------------
+# from app.config.agent_model_config import init_model_registry
+# from app.services.llm_client import create_multi_client_from_config
+# import os
+# 
+# # 初始化注册表
+# registry = init_model_registry("config/models_config.yaml")
+# 
+# # 创建多客户端
+# api_keys = {
+#     "openai": os.getenv("OPENAI_API_KEY"),
+#     "anthropic": os.getenv("ANTHROPIC_API_KEY"),
+#     "gemini": os.getenv("GEMINI_API_KEY")
+# }
+# multi_client = create_multi_client_from_config(
+#     "config/models_config.yaml",
+#     api_keys
+# )
+#
+#
+# 示例3: 为特定Agent指定模型
+# ---------------------------------
+# orchestrator = AgentOrchestrator(llm_client)
+# 
+# # 创建项目时指定Agent模型
+# result = await orchestrator.create_novel_project(
+#     project_id="my_project",
+#     title="我的小说",
+#     genre="奇幻",
+#     user_input="...",
+#     agent_models={
+#         "planner": "gpt-4",
+#         "world_builder": "claude-3-opus",
+#         "writer": "gpt-4",
+#         "editor": "gpt-3.5-turbo"
+#     }
+# )
+#
+#
+# 示例4: 运行时切换Agent模型
+# ---------------------------------
+# # 获取Agent
+# planner = orchestrator.agents.get("project_planner")
+# 
+# # 切换模型
+# orchestrator.set_agent_model("project_planner", "claude-3-opus")
+# 
+# # 或者直接在Agent上切换
+# planner.switch_model("gemini-pro")
+#
+#
+# 示例5: 使用阿里云百炼（通义千问）
+# ---------------------------------
+# from app.services.llm_client import LLMClient, LLMConfig, LLMProvider
+# import os
+#
+# config = LLMConfig(
+#     provider=LLMProvider.DASHSCOPE,
+#     api_key=os.getenv("DASHSCOPE_API_KEY"),
+#     model="qwen-plus"
+# )
+# client = LLMClient(config)
+#
+# # 创建使用通义千问的Agent
+# writer = orchestrator.create_agent(
+#     AgentRole.WRITER,
+#     agent_id="qwen_writer",
+#     model_id="qwen-plus"
+# )
+#
+#
+# 示例6: 使用Kimi（月之暗面）
+# ---------------------------------
+# from app.services.llm_client import LLMClient, LLMConfig, LLMProvider
+# import os
+#
+# config = LLMConfig(
+#     provider=LLMProvider.MOONSHOT,
+#     api_key=os.getenv("MOONSHOT_API_KEY"),
+#     model="moonshot-v1-128k"  # 超长上下文版本
+# )
+# client = LLMClient(config)
+#
+# # 创建使用Kimi的Agent（适合长文本创作）
+# world_builder = orchestrator.create_agent(
+#     AgentRole.WORLD_BUILDER,
+#     agent_id="kimi_world",
+#     model_id="moonshot-v1-128k"
+# )
+#
+#
+# 示例7: 配置多语言/中文优化
+# ---------------------------------
+# # 通义千问和Kimi对中文支持较好，可以用于中文创作
+# agent_models = {
+#     "planner": "qwen-plus",      # 中文规划
+#     "world_builder": "moonshot-v1-128k",  # 长上下文世界构建
+#     "character_designer": "qwen-plus",     # 中文角色设计
+#     "writer": "moonshot-v1-32k",          # 中文写作
+#     "editor": "qwen-turbo"                # 快速润色
+# }
+#
+#
+# 示例8: 成本优化组合
+# ---------------------------------
+# # 使用国产模型降低成本
+# agent_models = {
+#     "planner": "qwen-plus",       # 通义千问Plus
+#     "world_builder": "deepseek-chat",  # DeepSeek
+#     "character_designer": "qwen-plus",
+#     "writer": "qwen-plus",
+#     "editor": "qwen-turbo"        # 快速便宜的版本
+# }
+

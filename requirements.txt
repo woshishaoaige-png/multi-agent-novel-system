@@ -1,0 +1,39 @@
+# Multi-Agent Novel Writing System
+# ================================
+
+# Core Dependencies
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+python-dotenv>=1.0.0
+
+# LLM and AI
+aiohttp>=3.9.0
+openai>=1.12.0
+
+# Database & Vector Store
+chromadb>=0.4.22
+sqlalchemy>=2.0.25
+psycopg2-binary>=2.9.9
+redis>=5.0.1
+
+# Data Processing
+numpy>=1.26.0
+pandas>=2.2.0
+
+# Utils
+python-multipart>=0.0.6
+jinja2>=3.1.3
+pyyaml>=6.0.1
+
+# Frontend (for development)
+# cd frontend && npm install
+
+# Development
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+httpx>=0.26.0
+black>=24.1.0
+isort>=5.13.0
+mypy>=1.8.0
+ruff>=0.2.0
