@@ -1,4 +1,4 @@
-# Multi-Agent Novel Writing System
+# 多Agent协作写小说系统
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11+-blue.svg" alt="Python">
@@ -6,120 +6,120 @@
   <img src="https://img.shields.io/badge/AI-Multi--Agent-orange.svg" alt="AI">
 </p>
 
-> A cutting-edge AI-powered novel writing system featuring multiple intelligent agents collaborating to create compelling stories with customizable writing styles.
+> 一个前沿的AI驱动小说写作系统，特点多个智能Agent协作创作精彩故事，支持自定义写作风格。
 
-## Features
+## 核心特性
 
-### 1. Multi-Agent Collaboration
-- **Chief Planner**: Analyzes user requirements and generates story outlines
-- **World Builder**: Creates immersive world-building elements
-- **Character Designer**: Crafts detailed character profiles and arcs
-- **Plot Planner**: Designs plot twists and narrative structure
-- **Lead Writer**: Writes chapters following the outline
-- **Style Editor**: Polishes language and unifies writing style
-- **Reviewer**: Ensures quality and consistency
+### 1. 多Agent协作机制
+- **首席规划师**：理解用户需求，生成故事大纲和整体架构
+- **世界构建师**：创建详细的世界观、历史背景、地理环境
+- **角色设计师**：设计角色性格、背景、成长弧线
+- **情节策划师**：设计情节走向、冲突、转折点
+- **主笔作家**：根据大纲撰写具体章节内容
+- **风格编辑**：统一文风、润色语言
+- **审核员**：检查逻辑一致性、质量评估
 
-### 2. Writer Style Learning
-- Upload sample texts from your favorite authors
-- Automatic style analysis (vocabulary, sentence patterns, narrative techniques)
-- Create reusable writer agent templates
-- Mix multiple styles (e.g., Jin Yong's martial arts + Liu Cixin's sci-fi)
+### 2. 作家风格学习
+- 上传喜欢的作家文章
+- 自动分析语言风格、叙事特点、词汇偏好
+- 创建可复用的作家Agent模板
+- 支持风格混合（如：金庸的武侠 + 刘慈欣的科幻）
 
-### 3. Smart Collaboration Workflows
-- **Sequential**: Agents work one after another
-- **Parallel**: Multiple agents work simultaneously
-- **Iterative**: Multi-round optimization until quality standards are met
-- **Hybrid**: Combines all collaboration modes
+### 3. 智能协作流程
+- **顺序协作**：Agent按顺序执行任务
+- **并行协作**：多个Agent同时工作
+- **迭代协作**：多轮对话逐步优化内容
+- **混合协作**：组合所有协作模式
 
-### 4. Quality Assurance
-- Generate-Evaluate-Optimize闭环
-- Automatic consistency checking
-- Style unification
-- Human intervention support
+### 4. 质量保障
+- 生成-评估-优化闭环
+- 自动一致性检查
+- 风格统一
+- 支持人工干预
 
-## System Architecture
+## 系统架构
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         User Interface Layer                     │
-│        (Web UI - React + TypeScript + Tailwind CSS)             │
+│                         用户交互层 (Web UI)                       │
+│            React + TypeScript + Tailwind CSS                    │
 └─────────────────────────────────────────────────────────────────┘
                                 │
                                 ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    Orchestration Layer (Orchestrator)            │
-│   Task Scheduler │ Agent Coordinator │ State Manager │ Quality   │
+│                      编排协调层 (Orchestrator)                     │
+│     任务调度器 │ Agent协调 │ 状态管理 │ 质量评估                    │
 └─────────────────────────────────────────────────────────────────┘
                                 │
                                 ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                         Agent Collaboration Layer                │
-│  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐        │
-│  │Planner│ │ World  │ │Character│ │ Writer │ │ Editor │        │
-│  │      │ │Builder │ │Designer │ │       │ │       │        │
-│  └────────┘ └────────┘ └────────┘ └────────┘ └────────┘        │
+│                        Agent协作层                               │
+│  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐     │
+│  │ 规划师 │ │ 世界   │ │ 角色   │ │ 作家   │ │ 编辑   │     │
+│  │      │ │ 构建师 │ │ 设计师 │ │       │ │       │     │
+│  └────────┘ └────────┘ └────────┘ └────────┘ └────────┘     │
 └─────────────────────────────────────────────────────────────────┘
                                 │
                                 ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                      Infrastructure Layer                         │
-│  LLM (OpenAI/Claude/Gemini) │ ChromaDB │ PostgreSQL │ Redis    │
+│                       基础设施层                                  │
+│   LLM (OpenAI/Claude/Gemini) │ ChromaDB │ PostgreSQL │ Redis   │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Quick Start
+## 快速开始
 
-### Prerequisites
+### 环境要求
 - Python 3.11+
-- Node.js 18+ (for frontend)
-- API keys for LLM providers
+- Node.js 18+（用于前端）
+- LLM提供商的API密钥
 
-### Installation
+### 安装步骤
 
-1. **Clone the repository**
+1. **克隆仓库**
 ```bash
-git clone https://github.com/yourusername/multi-agent-novel-system.git
+git clone https://github.com/woshishaoaige-png/multi-agent-novel-system.git
 cd multi-agent-novel-system
 ```
 
-2. **Install Python dependencies**
+2. **安装Python依赖**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **Install frontend dependencies** (optional, for web UI)
+3. **安装前端依赖**（可选，用于Web界面）
 ```bash
 cd frontend
 npm install
 cd ..
 ```
 
-4. **Configure environment variables**
+4. **配置环境变量**
 ```bash
 cp .env.example .env
-# Edit .env and add your API keys
+# 编辑 .env 文件，填入你的API密钥
 ```
 
-5. **Start the backend server**
+5. **启动后端服务**
 ```bash
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
-6. **Start the frontend** (optional)
+6. **启动前端**（可选）
 ```bash
 cd frontend
 npm run dev
 ```
 
-## Usage Examples
+## 使用示例
 
-### 1. Create a Writer Agent from Text
+### 1. 从文本创建作家Agent
 
 ```python
 from app.services.style_service import StyleService
 from app.services.llm_client import LLMClient, LLMConfig, LLMProvider
 
-# Create LLM client
+# 创建LLM客户端
 config = LLMConfig(
     provider=LLMProvider.OPENAI,
     api_key="your-api-key",
@@ -127,19 +127,19 @@ config = LLMConfig(
 )
 llm_client = LLMClient(config)
 
-# Create style service
+# 创建风格服务
 style_service = StyleService()
 
-# Analyze author style
+# 分析作家风格
 style = await style_service.analyze_style(
-    name="Jin Yong Style",
-    sample_texts=["martial arts novel excerpts..."],
+    name="金庸武侠风格",
+    sample_texts=["射雕英雄传片段...", "神雕侠侣片段..."],
     llm_client=llm_client,
-    description="Classic wuxia writing style"
+    description="经典武侠写作风格"
 )
 ```
 
-### 2. Create a Novel Project
+### 2. 创建小说项目
 
 ```python
 from app.core.orchestrator import AgentOrchestrator
@@ -148,17 +148,17 @@ orchestrator = AgentOrchestrator(llm_client)
 
 result = await orchestrator.create_novel_project(
     project_id="my_novel_001",
-    title="Space Martial Arts Chronicles",
-    genre="Sci-Fi Wuxia",
-    user_input="A story about martial arts in the interstellar age...",
+    title="星际武侠传",
+    genre="科幻武侠",
+    user_input="一个关于未来武侠世界的故事...",
     target_chapters=20
 )
 ```
 
-### 3. Write a Chapter with Multi-Agent Collaboration
+### 3. 多Agent协作写章节
 
 ```python
-# Execute collaborative writing workflow
+# 执行协作写作流程
 result = await orchestrator.write_chapter(
     project_id="my_novel_001",
     chapter_num=1,
@@ -166,11 +166,11 @@ result = await orchestrator.write_chapter(
 )
 ```
 
-## Configuration
+## 配置说明
 
-### Model Configuration
+### 模型配置
 
-Edit `config/models_config.example.yaml` to configure different models for different agents:
+编辑 `config/models_config.example.yaml` 为不同Agent配置不同模型：
 
 ```yaml
 agents:
@@ -185,79 +185,72 @@ agents:
     fallback_models: [gpt-3.5-turbo]
 ```
 
-### Supported LLM Providers
+### 支持的LLM提供商
 
-| Provider | Model | Environment Variable |
-|----------|-------|---------------------|
+| 提供商 | 模型 | 环境变量 |
+|--------|------|----------|
 | OpenAI | GPT-4, GPT-3.5 | `OPENAI_API_KEY` |
 | Anthropic | Claude 3 | `ANTHROPIC_API_KEY` |
 | Google | Gemini Pro | `GEMINI_API_KEY` |
 | DeepSeek | DeepSeek Chat | `DEEPSEEK_API_KEY` |
-| Alibaba | Qwen | `DASHSCOPE_API_KEY` |
+| 阿里云 | 通义千问 | `DASHSCOPE_API_KEY` |
 | Moonshot | Kimi | `MOONSHOT_API_KEY` |
 
-## Project Structure
+## 项目结构
 
 ```
 multi_agent_novel_system/
 ├── app/
-│   ├── agents/              # Agent implementations
+│   ├── agents/              # Agent实现
 │   │   ├── base_agent.py
 │   │   ├── planner_agent.py
 │   │   ├── writer_agent.py
 │   │   ├── editor_agent.py
 │   │   └── ...
-│   ├── core/                # Core orchestration logic
+│   ├── core/                # 核心编排逻辑
 │   │   └── orchestrator.py
-│   ├── services/            # Business services
+│   ├── services/            # 业务服务
 │   │   ├── llm_client.py
 │   │   ├── style_service.py
 │   │   └── ...
-│   └── config/              # Configuration files
-├── config/                  # Model configurations
-├── docs/                    # Documentation
-├── examples/                # Usage examples
-├── frontend/                # Web UI (React)
-├── .env.example             # Environment template
+│   └── config/              # 配置文件
+├── config/                  # 模型配置
+├── docs/                    # 文档
+├── examples/                # 使用示例
+├── frontend/                # Web界面 (React)
+├── .env.example             # 环境变量模板
 ├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
 
-## Documentation
+## 技术栈
 
-- [Quick Start Guide](docs/QUICKSTART.md)
-- [Architecture Documentation](docs/ARCHITECTURE.md)
-- [API Documentation](docs/API.md)
-- [User Guide](docs/USER_GUIDE.md)
+| 层级 | 技术 |
+|------|------|
+| 后端 | Python 3.11+, FastAPI, SQLAlchemy |
+| 前端 | React 18+, TypeScript, Tailwind CSS |
+| AI模型 | OpenAI GPT-4, Claude, Gemini, DeepSeek |
+| 向量数据库 | ChromaDB |
+| 数据库 | PostgreSQL |
+| 缓存 | Redis |
 
-## Tech Stack
+## 贡献指南
 
-| Layer | Technology |
-|-------|------------|
-| Backend | Python 3.11+, FastAPI, SQLAlchemy |
-| Frontend | React 18+, TypeScript, Tailwind CSS |
-| AI Models | OpenAI GPT-4, Claude, Gemini, DeepSeek |
-| Vector DB | ChromaDB |
-| Database | PostgreSQL |
-| Cache | Redis |
+欢迎贡献代码！请提交Pull Request。
 
-## Contributing
+1. Fork本仓库
+2. 创建功能分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 创建Pull Request
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 许可证
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+本项目采用MIT许可证 - 查看 [LICENSE](LICENSE) 文件了解更多详情。
 
-## License
+## 致谢
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Inspired by [MuMuAINovel](https://github.com/xiamuceer-j/MuMuAINovel)
-- Built with ideas from [CrewAI](https://github.com/joaomdmoura/crewAI)
-- Collaboration patterns from [AutoGen](https://github.com/microsoft/autogen)
+- 灵感来源：[MuMuAINovel](https://github.com/xiamuceer-j/MuMuAINovel)
+- 参考项目：[CrewAI](https://github.com/joaomdmoura/crewAI)
+- 协作模式：[AutoGen](https://github.com/microsoft/autogen)
